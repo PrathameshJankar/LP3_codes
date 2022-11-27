@@ -1,0 +1,46 @@
+
+#include<bits/stdc++.h>
+using namespace std;
+
+struct Item{
+    int profit;
+    int weight;
+};
+static bool cmp(Item &a,Item &b){
+    double profitPerWeight1=a.profit/a.weight;
+    double profitPerWeight2=b.profit/b.weight;
+    return profitPerWeight1 >= profitPerWeight2;
+}
+int maxProfit(int weight[],int profits[],int n,int bagSize)
+{
+    Item arr[n];
+    for(int i=0;i<n;i++)
+    {
+        Item p1;
+        p1.profit=profits[i];
+        p1.weight=weight[i];
+        arr[i]=p1;
+    }
+    sort(arr,arr+n,cmp);
+    int answer=0;
+    int i=0;
+    while(i<n && bagSize>0)
+    {	
+    	if(arr[i].weight>bagSize)
+    	answer+=(arr[i].profit/arr[i].weight)*bagSize;
+    	else answer+=arr[i].profit;
+        
+        bagSize-=min(arr[i].weight,bagSize);
+        
+        i++;
+    }
+    return answer;
+    
+}
+int main() {
+    int weights[5]={5,10,15,12,10};
+    int profits[5]={10,25,70,2,3};
+    int bagSize=40;
+    cout<<maxProfit(weights,profits,5,bagSize);
+    return 0;
+}

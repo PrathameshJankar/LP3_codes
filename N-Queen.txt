@@ -1,0 +1,54 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+bool canPlace(int i,int j,vector<string>& grid,int n)
+{
+    for(int k=0;k<n;k++)
+    {
+        if(grid[i][k]=='Q' || grid[k][j]=='Q')return false;
+    }
+    //checking for right diagonals
+    for(int sj=j,sr=i;sj<n && sr>=0;sj++,sr--)
+	if(grid[sr][sj]=='Q')return false;
+    //checking for left digonals
+    for(int sr=i,sc=j;sr>=0 && sc>=0;sr--,sc--)
+	if(grid[sr][sc]=='Q')return false;
+    return true;
+}
+void Nqueen(int i,vector<string>& grid,int n)
+{
+    if(i==n){
+        for(int i=0;i<n;i++)
+        {
+        	for(int j=0;j<n;j++){
+        		cout<<grid[i][j]<<" ";
+			}
+			cout<<endl;
+		}
+		cout<<"\n\n";
+        return;
+    }
+    for(int col=0;col<n;col++)
+    {
+        if(canPlace(i,col,grid,n))
+        {
+            //placing queue
+            grid[i][col]='Q';
+            Nqueen(i+1,grid,n);
+            //backtracking
+            grid[i][col]='.';
+        }
+    }
+    return;
+    
+}
+int main() {
+    int n=4;
+    string s(n,'.');
+    vector<string> grid(n,s);
+   Nqueen(0,grid,n);
+    
+    return 0;
+    
+    
+}
